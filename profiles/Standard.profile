@@ -1360,6 +1360,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Account.Field_Level_Security__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Account.ImportantForLeasePlan__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2499,6 +2504,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Period__c.External_Id__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Period__c.Type__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Product2.Description</field>
         <readable>true</readable>
@@ -2572,6 +2587,11 @@
         <editable>true</editable>
         <field>Task.This_is_a_Custom_Field__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Task.TimePeriod__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -6353,7 +6373,7 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Period__c</tab>
-        <visibility>DefaultOff</visibility>
+        <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>copado__Account_Summary</tab>
@@ -6682,6 +6702,10 @@
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
+        <name>ApexRestServices</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
         <name>ApiEnabled</name>
     </userPermissions>
     <userPermissions>
@@ -6823,6 +6847,10 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ViewHelpLink</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>ViewRoles</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>

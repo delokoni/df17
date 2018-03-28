@@ -173,6 +173,14 @@
         <type>Checkbox</type>
     </fields>
     <fields>
+        <fullName>Field_Level_Security__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Field Level Security</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>ImportantForLeasePlan__c</fullName>
         <defaultValue>false</defaultValue>
         <description>Check for important customers</description>
