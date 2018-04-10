@@ -2,5 +2,5 @@
 <CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
     <defaultLandingTab>standard-home</defaultLandingTab>
     <formFactors>Large</formFactors>
-    <tab>standard-AppLauncher</tab>
+    <tabs>standard-AppLauncher</tabs>
 </CustomApplication>
