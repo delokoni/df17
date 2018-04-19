@@ -10,7 +10,7 @@ public with sharing class CopadoConstants {
 
     //apiKeys are security relevant, so if you store them outside of the page, please make sure only certain users can access it.
     //custom setting only for
-    public Static final String apiKey = CopadoApiKey__c.getInstance('CopadoApiKey').CopadoApiKey__c;
+    public Static final String apiKey = CopadoKeys__c.getInstance('CopadoApiKey').Value__c;
 
     //test level strings
     // https://resources.docs.salesforce.com/sfdc/pdf/salesforce_migration_guide.pdf
@@ -18,4 +18,6 @@ public with sharing class CopadoConstants {
     public static final String runSelectedTests = 'RunSpecifiedTests';
     public static final String runLocalTests = 'RunLocalTests';
     public static final String noTestRun = 'NoTestRun';
+
+    public static final String projectId = CopadoKeys__c.getInstance('ProjectId').Value__c;
 }

@@ -122,6 +122,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CopadoPromotionServiceTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CopadoSCAHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>

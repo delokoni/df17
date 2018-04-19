@@ -4,7 +4,7 @@
 
 public with sharing class CopadoUserStoryService {
 
-    public static Map<Id, copado__User_Story__c> getUserStoriesToBePromoted(String projectId){
+    public static Map<Id, copado__User_Story__c> getUserStoriesToBePromoted(String projectId, String envId){
         Map<Id,copado__User_Story__c> stories = new Map<Id, copado__User_Story__c>([
                 SELECT
                         Id,
@@ -14,7 +14,8 @@ public with sharing class CopadoUserStoryService {
                 FROM copado__User_Story__c
                 WHERE
                         copado__Project__c = :projectId AND
-                        copado__Promote_Change__c = true
+                        copado__Environment__c = :envId AND
+                        copado__Promote_Change__c = TRUE
         ]);
 
         return stories;

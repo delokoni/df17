@@ -6,8 +6,20 @@ public with sharing class CopadoPromotionService {
 
     public static copado__Promotion__c queriedPromotion = new copado__Promotion__c();
 
+    //invocable method to be called from process builder. Project ID must be hardcoded, e.g. in a custom setting
+    @InvocableMethod
+    public static void createAndDeployPromotionForProject(
+            List<Id> envs
+    ){
+        Id projectId = CopadoConstants.projectId;
+        createAndDeployForwardPromotion(
+                envs[0],
+                projectId
+        );
+    }
+
     //create and deploy a promotion UP the flow
-    public static copado__Promotion__c createAndDeployForwardPromotion(
+    public static void createAndDeployForwardPromotion(
             Id sourceEnvId,
             Id projectId
     ){
@@ -17,8 +29,8 @@ public with sharing class CopadoPromotionService {
         queriedPromotion = promotion;
 
         promotion = attachUserStoriesBasedOnProject(promotion.Id);
-        promotion = deployPromotion(promotion.Id,CopadoConstants.runLocalTests,false);
-        return promotion;
+        deployPromotion(promotion.Id,CopadoConstants.runLocalTests,false);
+        //return promotion;
     }
 
     //create the promotion, but do not attach any stories
@@ -40,7 +52,10 @@ public with sharing class CopadoPromotionService {
             String promId
     ){
         copado__Promotion__c promotion = getPromotion(promId);
-        Set<Id> storyIds = CopadoUserStoryService.getUserStoriesToBePromoted(promotion.copado__Project__c).keySet();
+        Set<Id> storyIds = CopadoUserStoryService.getUserStoriesToBePromoted(
+                promotion.copado__Project__c,
+                promotion.copado__Source_Environment__c
+        ).keySet();
 
         List<copado__Promoted_User_Story__c> pus = new List<copado__Promoted_User_Story__c>();
         for(Id sid:storyIds){
@@ -54,14 +69,15 @@ public with sharing class CopadoPromotionService {
     }
 
     //deploy an existing promotion with a webhook
-    public static copado__Promotion__c deployPromotion(
+    @future(callout=true)
+    public static void deployPromotion(
             String promId,
             String testLevel,
             Boolean isValidation
     ){
         copado__Promotion__c promotion = getPromotion(promId);
 
-        String deploymentName = 'AutoDeployFrom'+promotion.copado__Source_Environment__r.Name + 'To' +promotion.copado__Destination_Environment__r.Name;
+        String deploymentName = 'deploymentName=AutoDeployFrom'+promotion.copado__Source_Environment__r.Name + 'To' +promotion.copado__Destination_Environment__r.Name;
         String urlBase = CopadoConstants.webhookBase + CopadoConstants.deployPromotionBase;
         String testParameter = 'testLevel=' + testLevel;
         String apiKeyParameter = 'api_key=' + CopadoConstants.apiKey;
@@ -75,7 +91,8 @@ public with sharing class CopadoPromotionService {
         hookURL += '&' + deploymentName;
 
         HttpResponse callResponse = CopadoWebhookService.callWebhook('POST', hookURL, null);
-        return promotion;
+        System.debug(callResponse);
+        //return promotion;
     }
 
     public static copado__Promotion__c getPromotion(String promId){

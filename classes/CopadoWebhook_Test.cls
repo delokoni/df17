@@ -44,7 +44,7 @@ public class CopadoWebhook_Test {
         att = CopadoTestDataFactory.createAttachment(userStory.Id);
         insert att;
 
-        CopadoApiKey__c cap = CopadoTestDataFactory.createApiKeyCustomSetting();
+        CopadoKeys__c cap = CopadoTestDataFactory.createApiKeyCustomSetting();
         insert cap;
 
     }

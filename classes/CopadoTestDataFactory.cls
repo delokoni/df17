@@ -57,6 +57,7 @@ public class CopadoTestDataFactory {
         flow.copado__Main_Branch__c = 'utMaster';
         flow.copado__Git_Repository__c = repo.Id;
         flow.copado__Static_Code_Analysis_Settings__c = scas.Id;
+        flow.copado__Active__c = true;
         return flow;
     }
 
@@ -99,10 +100,28 @@ public class CopadoTestDataFactory {
         return att;
     }
 
-    public static CopadoApiKey__c createApiKeyCustomSetting(){
-        CopadoApiKey__c cap = new CopadoApiKey__c();
+    public static CopadoKeys__c createApiKeyCustomSetting(){
+        CopadoKeys__c cap = new CopadoKeys__c();
         cap.Name = 'CopadoApiKey';
-        cap.CopadoApiKey__c = '1234567890';
+        cap.Value__c = '1234567890';
         return cap;
     }
+
+    public static CopadoKeys__c createProjectIdCustomSetting(Id projectId){
+        CopadoKeys__c cpk = new CopadoKeys__c();
+        cpk.Name = 'ProjectId';
+        cpk.Value__c = projectId;
+        return cpk;
+    }
+
+    public static copado__Deployment_Flow_Step__c createDeploymentFlowStep(Id flow, Id source, Id target){
+        copado__Deployment_Flow_Step__c dfs = new copado__Deployment_Flow_Step__c();
+        dfs.copado__Source_Environment__c = source;
+        dfs.copado__Destination_Environment__c = target;
+        dfs.copado__Branch__c = 'unitTest';
+        dfs.copado__Deployment_Flow__c = flow;
+
+        return dfs;
+    }
+
 }
