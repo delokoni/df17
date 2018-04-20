@@ -5,6 +5,7 @@
 public with sharing class CopadoPromotionService {
 
     public static copado__Promotion__c queriedPromotion = new copado__Promotion__c();
+    public static HttpResponse callResponse;
 
     //invocable method to be called from process builder. Project ID must be hardcoded, e.g. in a custom setting
     @InvocableMethod
@@ -90,7 +91,7 @@ public with sharing class CopadoPromotionService {
         hookURL += '&' + apiKeyParameter;
         hookURL += '&' + deploymentName;
 
-        HttpResponse callResponse = CopadoWebhookService.callWebhook('POST', hookURL, null);
+        callResponse = CopadoWebhookService.callWebhook('POST', hookURL, null);
         System.debug(callResponse);
         //return promotion;
     }

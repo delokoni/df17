@@ -138,6 +138,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CopadoUserStoryServiceTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CopadoWebhookCalloutMock</apexClass>
         <enabled>true</enabled>
     </classAccesses>

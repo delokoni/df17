@@ -1,9 +1,9 @@
 /**
- * Due to the way salesforce works the test-class needs to run with ability to access actual salesforce data
+ * Created by kheidt on 20/04/2018.
  */
 
-@IsTest(SeeAllData=true)
-private class CopadoPromotionServiceTest {
+@IsTest
+private class CopadoUserStoryServiceTest {
 
     private static copado__Org__c sourceOrgCredential;
     private static copado__Org__c targetOrgCredential;
@@ -54,9 +54,6 @@ private class CopadoPromotionServiceTest {
         system.debug(flow);
         update flow;
 
-        copado__Deployment_Flow_Step__c dfs = CopadoTestDataFactory.createDeploymentFlowStep(flow.Id,sourceEnv.Id, targetEnv.Id);
-        insert dfs;
-
         project = CopadoTestDataFactory.createProject(flow);
         insert project;
 
@@ -83,22 +80,26 @@ private class CopadoPromotionServiceTest {
 
     }
 
-    static testMethod void testCreateAndDeployPromotion() {
+    static testMethod void testGetUserStory() {
+
         setUp();
-
-        CopadoWebhookCalloutMock calloutMock = new CopadoWebhookCalloutMock();
-        calloutMock.mockCreatePromotionAndDeployCall();
-
-        Test.setMock(HttpCalloutMock.class, calloutMock);
-
-        System.debug(calloutMock.responseStatus);
-
         Test.startTest();
-        CopadoPromotionService.createAndDeployPromotionForProject(new List<Id>{sourceEnv.Id});
+
+        copado__User_Story__c us = CopadoUserStoryService.getUserStory(userStory.Id);
+
         Test.stopTest();
 
-        System.debug(CopadoPromotionService.callResponse);
+        System.assertEquals(userStory.Id, us.Id);
 
-        System.assertEquals('2019', CopadoPromotionService.callResponse.getStatus() );
+    }
+
+    static testMethod void testGetPromotableUserStory(){
+        setUp();
+
+        Test.startTest();
+        Map<Id, copado__User_Story__c> uss = CopadoUserStoryService.getUserStoriesToBePromoted(project.Id, sourceEnv.Id);
+        Test.stopTest();
+
+        System.assertEquals(userStory.Id, uss.values()[0].Id);
     }
 }
