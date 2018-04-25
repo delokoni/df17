@@ -1,7 +1,11 @@
 @isTest
 public class Utility_Tst {
     public static testmethod void testDefaultCompanyCurrency(){
-        System.assertEquals('EUR', Utility.companyCurrency);
+        
+        String thisCurrency = Utility.companyCurrency;
+        Utility.debugSomeComments();
+        
+        System.assertEquals('EUR', thisCurrency);
     }
 
 }
