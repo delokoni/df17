@@ -101,4 +101,33 @@ private class CopadoPromotionServiceTest {
 
         System.assertEquals('2019', CopadoPromotionService.callResponse.getStatus() );
     }
+
+    static testMethod void testSchedulePromotion(){
+        setUp();
+        CopadoWebhookCalloutMock calloutMock = new CopadoWebhookCalloutMock();
+        calloutMock.mockCreatePromotionAndDeployCall();
+
+        Test.setMock(HttpCalloutMock.class, calloutMock);
+
+        System.debug(calloutMock.responseStatus);
+        Test.startTest();
+        // This test runs a scheduled job at midnight Sept. 3rd. 2022
+        String CRON_EXP = '0 0 0 3 9 ? 2022';
+
+        // Schedule the test job
+        CopadoSchedulePromotion csp = new CopadoSchedulePromotion(sourceEnv.Id);
+        csp.environmentId = sourceEnv.Id;
+        String jobId = System.schedule('BorrarAseguradosTest', CRON_EXP, csp);
+
+        // Get the information from the CronTrigger API object
+        CronTrigger ct = [SELECT Id, CronExpression, TimesTriggered, NextFireTime FROM CronTrigger WHERE id = :jobId];
+
+        // Verify the expressions are the same System.assertEquals(CRON_EXP, ct.CronExpression);
+        // Verify the job has not run
+        System.assertEquals(0, ct.TimesTriggered);
+
+        // Verify the next time the job will run
+        System.assertEquals('2022-09-03 00:00:00', String.valueOf(ct.NextFireTime));
+        Test.stopTest();
+    }
 }

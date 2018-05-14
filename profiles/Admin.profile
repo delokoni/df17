@@ -130,6 +130,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CopadoSchedulePromotion</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CopadoTestDataFactory</apexClass>
         <enabled>true</enabled>
     </classAccesses>
