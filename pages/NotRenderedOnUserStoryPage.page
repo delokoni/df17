@@ -1,0 +1,8 @@
+<apex:page docType="html-5.0" standardController="copado__User_Story__c">
+  <!-- 
+  This page exists because of a salesforce bug. Salesforce does not render the first VF page on a User Story layout correctly
+To make sure the Grid and Apex Class sections appear correctly, this page is introduced.
+
+  -->
+
+</apex:page>
