@@ -385,12 +385,6 @@
         <searchResultsAdditionalFields>CORE.USERS.ALIAS</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>ReadWriteTransfer</sharingModel>
-    <validationRules>
-        <fullName>OnCaseName</fullName>
-        <active>true</active>
-        <errorConditionFormula>Description = &apos;&apos;</errorConditionFormula>
-        <errorMessage>do something</errorMessage>
-    </validationRules>
     <webLinks>
         <fullName>UpsellCrosssellOpportunity</fullName>
         <availability>online</availability>
