@@ -19,4 +19,7 @@
         <type>Text</type>
         <unique>true</unique>
     </fields>
+    <label>MyTestType</label>
+    <pluralLabel>MyTestTypes</pluralLabel>
+    <visibility>Public</visibility>
 </CustomObject>
