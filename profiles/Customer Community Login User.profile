@@ -4080,6 +4080,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>copado__User_Story__c.Peer_Review_Passed__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>copado__User_Story__c.Static_Code_Analysis_Passed__c</field>
         <readable>false</readable>
     </fieldPermissions>
