@@ -173,6 +173,16 @@
         <type>Checkbox</type>
     </fields>
     <fields>
+        <fullName>Has_Preferred_Support__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Checked for accounts who have purchased Preferred Support. Checkbox should be automated based on current active contract.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Checked for accounts who have purchased Preferred Support</inlineHelpText>
+        <label>Has Preferred Support</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>Importang_for_EC4U__c</fullName>
         <defaultValue>false</defaultValue>
         <externalId>false</externalId>
