@@ -254,6 +254,11 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.Has_Preferred_Support__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Account.Industry</field>
         <readable>true</readable>
@@ -4587,9 +4592,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>WorkPerformanceCycle-Performance Cycle Layout - Winter %2716</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>copado__User_Story__c-Slim User Story Layout</layout>
     </layoutAssignments>
     <pageAccesses>
         <apexPage>CopadoSyncUserStories</apexPage>
