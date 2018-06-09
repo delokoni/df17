@@ -13,5 +13,13 @@
         <unique>false</unique>
     </fields>
     <label>CopadoKeys</label>
+    <listViews>
+        <fullName>Alln</fullName>
+        <columns>NAME</columns>
+        <columns>Value__c</columns>
+        <columns>SETUP_TYPE</columns>
+        <filterScope>Everything</filterScope>
+        <label>Alln</label>
+    </listViews>
     <visibility>Public</visibility>
 </CustomObject>
