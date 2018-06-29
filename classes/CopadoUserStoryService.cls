@@ -10,7 +10,8 @@ public with sharing class CopadoUserStoryService {
                         Id,
                         Name,
                         copado__Environment__c,
-                        copado__Org_Credential__c
+                        copado__Org_Credential__c,
+            			copado__Has_Apex_Code__c 
                 FROM copado__User_Story__c
                 WHERE
                         copado__Project__c = :projectId AND
@@ -28,7 +29,8 @@ public with sharing class CopadoUserStoryService {
                         Name,
                         copado__Org_Credential__c,
                         copado__Project__r.copado__Deployment_Flow__r.copado__Git_Repository__c,
-                        copado__Project__r.copado__Deployment_Flow__r.copado__Static_Code_Analysis_Settings__c
+                        copado__Project__r.copado__Deployment_Flow__r.copado__Static_Code_Analysis_Settings__c,
+            			copado__Has_Apex_Code__c 
                 FROM copado__User_Story__c
                 WHERE Id = :usId
                 LIMIT 1

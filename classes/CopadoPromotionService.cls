@@ -1,28 +1,60 @@
 /**
  * Created by kheidt on 17/04/2018.
+ * to invoque a promotion deployment through another apex class: CopadoPromotionService.createAndDeployForwardPromotion('NameOfEnvironment', 'NameOfProject');
+ * to invoque a promotion validation through another apex class: CopadoPromotionService.createAndValidateForwardPromotion('NameOfEnvironment', 'NameOfProject');
  */
 
 public with sharing class CopadoPromotionService {
 
     public static copado__Promotion__c queriedPromotion = new copado__Promotion__c();
     public static HttpResponse callResponse;
-
-    //invocable method to be called from process builder. Project ID must be hardcoded, e.g. in a custom setting
-    @InvocableMethod
-    public static void createAndDeployPromotionForProject(
-            List<Id> envs
+   	public static Boolean hasApexCode = false;   
+    
+    /**
+     * create and deploy a promotion UP the flow. parameters are the name of an environment and a project
+     **/
+    public static void createAndDeployForwardPromotion(
+            String sourceEnvName, 
+            String prjName 
     ){
-        Id projectId = CopadoConstants.projectId;
-        createAndDeployForwardPromotion(
-                envs[0],
-                projectId
+		
+        Id sourceEnvId = CopadoEnvironmentService.getEnvironementByName(sourceEnvName).Id;
+        Id projectId = CopadoProjectService.getProjectByName(prjName).Id;
+        String testlevel = hasApexCode == true ? CopadoConstants.runSelectedTests : CopadoConstants.noTestRun; 
+        
+        createAndValidatedPromotionBase(
+        	sourceEnvId,
+            projectId,
+            testLevel,
+            false
         );
     }
-
-    //create and deploy a promotion UP the flow
-    public static void createAndDeployForwardPromotion(
-            Id sourceEnvId,
-            Id projectId
+    
+    /**
+     * create and deploy a validation UP the flow. parameters are the name of an environment and a project
+     **/
+    public static void createAndValidateForwardPromotion(
+            String sourceEnvName,
+            String prjName
+    ){
+		
+        Id sourceEnvId = CopadoEnvironmentService.getEnvironementByName(sourceEnvName).Id;
+        Id projectId = CopadoProjectService.getProjectByName(prjName).Id;
+        String testlevel = hasApexCode == true ? CopadoConstants.runSelectedTests : CopadoConstants.noTestRun; 
+        
+        createAndValidatedPromotionBase(
+        	sourceEnvId,
+            projectId,
+            testLevel,
+            true
+        );
+    }
+    
+    public static void createAndValidatedPromotionBase(
+            Id sourceEnvId, 
+            Id projectId, 
+        	String testLevel,
+        	Boolean isValidation
     ){
         copado__Promotion__c promotion = createForwardPromotion(sourceEnvId, projectId);
 
@@ -30,10 +62,10 @@ public with sharing class CopadoPromotionService {
         queriedPromotion = promotion;
 
         promotion = attachUserStoriesBasedOnProject(promotion.Id);
-        deployPromotion(promotion.Id,CopadoConstants.runLocalTests,false);
+        deployPromotion(promotion.Id,testLevel,isValidation);
         //return promotion;
     }
-
+    
     //create the promotion, but do not attach any stories
     public static copado__Promotion__c createForwardPromotion(
             Id sourceEnvId,
@@ -53,18 +85,28 @@ public with sharing class CopadoPromotionService {
             String promId
     ){
         copado__Promotion__c promotion = getPromotion(promId);
-        Set<Id> storyIds = CopadoUserStoryService.getUserStoriesToBePromoted(
+        Map<Id, copado__User_Story__c> stories = CopadoUserStoryService.getUserStoriesToBePromoted(
                 promotion.copado__Project__c,
                 promotion.copado__Source_Environment__c
-        ).keySet();
-
+        );
+        Set<Id> storyIds = stories.keySet();
+        
+		Boolean listHasApexCode = false;
         List<copado__Promoted_User_Story__c> pus = new List<copado__Promoted_User_Story__c>();
         for(Id sid:storyIds){
             pus.add(new copado__Promoted_User_Story__c(
                     copado__User_Story__c = sid,
                     copado__Promotion__c = promotion.Id
             ));
+            
+            //check if some stories have classes to set the test level accordingly later on
+            if(stories.get(sid).copado__Has_Apex_Code__c == true){
+                listHasApexCode = true;
+            }            
         }
+        
+      	hasApexCode = listHasApexCode;
+        
         insert pus;
         return promotion;
     }

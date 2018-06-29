@@ -94,7 +94,7 @@ private class CopadoPromotionServiceTest {
         System.debug(calloutMock.responseStatus);
 
         Test.startTest();
-        CopadoPromotionService.createAndDeployPromotionForProject(new List<Id>{sourceEnv.Id});
+        CopadoPromotionService.createAndDeployForwardPromotion(sourceEnv.Name,project.Name);
         Test.stopTest();
 
         System.debug(CopadoPromotionService.callResponse);
@@ -115,8 +115,9 @@ private class CopadoPromotionServiceTest {
         String CRON_EXP = '0 0 0 3 9 ? 2022';
 
         // Schedule the test job
-        CopadoSchedulePromotion csp = new CopadoSchedulePromotion(sourceEnv.Id);
-        csp.environmentId = sourceEnv.Id;
+        CopadoSchedulePromotion csp = new CopadoSchedulePromotion(sourceEnv.Name, project.Name);
+        csp.environmentName = sourceEnv.Name;
+        csp.projectName = project.Name;
         String jobId = System.schedule('BorrarAseguradosTest', CRON_EXP, csp);
 
         // Get the information from the CronTrigger API object

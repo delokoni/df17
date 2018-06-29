@@ -4,13 +4,15 @@
 
 global class CopadoSchedulePromotion implements Schedulable {
 
-    @testVisible private Id environmentId;
-
-    global CopadoSchedulePromotion(Id envId){
-        environmentId = envId;
+    @testVisible private String environmentName;
+    @testVisible private String projectName;
+    
+    global CopadoSchedulePromotion(String envName, String prjName){
+        environmentName = envName;
+        projectName = prjName;
     }
 
     global void execute (SchedulableContext sc){
-        CopadoPromotionService.createAndDeployPromotionForProject(new List<Id>{environmentId});
+        CopadoPromotionService.createAndDeployForwardPromotion(environmentName,projectName);
     }
 }
