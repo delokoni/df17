@@ -96,6 +96,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CopadoLicenseUtilityTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CopadoProjectService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
