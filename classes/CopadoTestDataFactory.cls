@@ -19,6 +19,7 @@ public class CopadoTestDataFactory {
         copado__Org__c org = new copado__Org__c();
         org.Name = env.Name;
         org.copado__Environment__c = env.Id;
+        org.copado__SFDC_Org_ID__c = env.Id + '_' + UserInfo.getUserId();
         org.copado__Org_Type__c = env.copado__Type__c;
         org.copado__Default_Credential__c = true;
         org.copado__Validated_Date__c = DateTime.now();
@@ -122,6 +123,16 @@ public class CopadoTestDataFactory {
         dfs.copado__Deployment_Flow__c = flow;
 
         return dfs;
+    }
+    
+    public static copado__Git_Backup__c createGitSnapshot(copado__Org__c oc, String repoId, String branch){
+        copado__Git_Backup__c gs = new copado__Git_Backup__c();
+        gs.Name = oc.Name;
+        gs.copado__Git_Repository__c = repoId;
+        gs.copado__Org__c = oc.Id;
+        gs.copado__Branch__c = branch;
+        gs.copado__Git_Snapshot_Permissions__c = 'Allow Commits Only';
+    	return gs;
     }
     
     public static User createAdminUser(){

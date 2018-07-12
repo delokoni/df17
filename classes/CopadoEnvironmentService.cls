@@ -5,7 +5,8 @@ public class CopadoEnvironmentService {
         copado__Environment__c env = [
                 SELECT
                         Id,
-                        Name
+                        Name,
+            			copado__Org_ID__c
                 FROM copado__Environment__c
                 WHERE Name = :envName
                 LIMIT 1

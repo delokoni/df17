@@ -116,6 +116,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CopadoOrgRefreshHelperTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CopadoProjectService</apexClass>
         <enabled>false</enabled>
     </classAccesses>

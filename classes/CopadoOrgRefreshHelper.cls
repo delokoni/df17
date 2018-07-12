@@ -19,6 +19,8 @@ public class CopadoOrgRefreshHelper {
         oldBranchName = oldBranch;
         newBranchName = newBranch;
         
+        System.debug('input: ' + oldOrgId + ' - ' + newOrgId + ' - ' + oldBranchName + ' - ' + newBranchName);
+        
         copado__Environment__c env = changeOrgIdOnEnvironment(oldOrgId, newOrgId);
         Map<String, copado__Org__c> orgCreds = changeSFIDOnOrgCredentials(env);
         List<copado__Deployment_Flow_Step__c> steps = changeBranchReferenceOnFlowSteps(env, oldBranchName, newBranchName);
@@ -32,6 +34,7 @@ public class CopadoOrgRefreshHelper {
         
         //change thee org Id to the new one and update the record
         env.copado__Org_ID__c = newEnvId;
+        System.debug('org current env: ' + env);
         update env;
         
         return env;
