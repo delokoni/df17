@@ -1,5 +1,5 @@
 /**
- * Created by kheidt on 17/04/2018.
+ * Created by kheidt.
  */
 
 public with sharing class CopadoSCAHelper {
