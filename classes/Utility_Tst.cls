@@ -4,4 +4,5 @@ public class Utility_Tst {
         System.assertEquals('EUR', Utility.companyCurrency);
     }
 
+    //this is just a comment and another comment
 }
