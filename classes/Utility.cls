@@ -4,5 +4,6 @@ public class Utility {
     
     public static void debugSomeComments (){
         System.debug('Thomson Rules');
+        System.debug('Hello World - post fit');
     }
 }
