@@ -58,10 +58,13 @@ public with sharing class CopadoPromotionService {
     ){
         copado__Promotion__c promotion = createForwardPromotion(sourceEnvId, projectId);
 
+        insert promotion;
+
         //just to avoid re-querying
         queriedPromotion = promotion;
 
-        promotion = attachUserStoriesBasedOnProject(promotion.Id);
+        List<copado__Promoted_User_Story__c> pus = attachUserStoriesBasedOnProject(promotion.Id);
+        insert pus;
         deployPromotion(promotion.Id,testLevel,isValidation);
         //return promotion;
     }
@@ -74,14 +77,69 @@ public with sharing class CopadoPromotionService {
         copado__Promotion__c promotion = new copado__Promotion__c();
         promotion.copado__Project__c = projectId;
         promotion.copado__Source_Environment__c = sourceEnvId;
-
-        insert promotion;
-
         return promotion;
     }
 
+    //create the promotion backwards, but do not attach any stories
+    public static copado__Promotion__c createBackPromotion(
+            Id targetEnvId,
+            Id projectId
+    ){
+        copado__Promotion__c promotion = new copado__Promotion__c();
+        promotion.copado__Back_Promotion__c = true;
+        promotion.copado__Project__c = projectId;
+        promotion.copado__Destination_Environment__c = targetEnvId;
+        return promotion;
+    }
+
+    public static List<copado__Promotion__c> createBackwardPromotions(
+            List<Id> targetEnvironments,
+            Id projectId
+    ){
+        List<copado__Promotion__c> promotions = new List<copado__Promotion__c>();
+        for(Id envID : targetEnvironments){
+            createBackPromotion(envID, projectId);
+        }
+        return promotions;
+    }
+
+    public static List<copado__Promoted_User_Story__c> attachStoriesFromPromotions(
+            Id promotionId,
+            List<Id> promoIds
+    ){
+        Map<Id, List<Id>> promotionStoryIdMap = CopadoUserStoryService.getStoriesFromPromotions(promoIds);
+        //equalize the list
+        Set<Id> uniqueStoryIds = convertIdMapToSet(promotionStoryIdMap);
+
+        //for deduplication purposes, in case there is already stories on the existing promotion
+        Map<Id, List<Id>> existingPromotionStoryIdMap = CopadoUserStoryService.getStoriesFromPromotions(new List<Id>{promotionId});
+
+        if(existingPromotionStoryIdMap != null && !existingPromotionStoryIdMap.keySet().isEmpty()) {
+
+            //get a unique set of existing usIds and remove them from the set we will later work with
+            Set<Id> uniqueExistingStoryIds = convertIdMapToSet(existingPromotionStoryIdMap);
+            for(Id usId : uniqueExistingStoryIds){
+                if(uniqueStoryIds.contains(usId)){
+                    uniqueStoryIds.remove(usId);
+                }
+            }
+        }
+
+        //create promoted user story records
+        List<copado__Promoted_User_Story__c> newPus = new List<copado__Promoted_User_Story__c>();
+        for(Id pId : promoIds){
+            for(Id usId : uniqueStoryIds){
+                newPus.add(new copado__Promoted_User_Story__c(
+                        copado__User_Story__c = usId,
+                        copado__Promotion__c = pId
+                ));
+            }
+        }
+        return newPus;
+    }
+
     //attach stories to an existing promotion
-    public static copado__Promotion__c attachUserStoriesBasedOnProject(
+    public static List<copado__Promoted_User_Story__c>  attachUserStoriesBasedOnProject(
             String promId
     ){
         copado__Promotion__c promotion = getPromotion(promId);
@@ -107,8 +165,7 @@ public with sharing class CopadoPromotionService {
         
       	hasApexCode = listHasApexCode;
         
-        insert pus;
-        return promotion;
+        return pus;
     }
 
     //deploy an existing promotion with a webhook
@@ -158,6 +215,17 @@ public with sharing class CopadoPromotionService {
             ];
         }
         return queriedPromotion;
+    }
+
+    /** helpers **/
+    Public static Set<Id> convertIdMapToSet(Map<Id, List<Id>> inputMap ){
+        Set<Id> uniqueStoryIds = new Set<Id>();
+        for(List<Id> usIdList : inputMap.values()){
+            for(Id usId : usIdList){
+                uniqueStoryIds.add(usId);
+            }
+        }
+        return uniqueStoryIds;
     }
 
 }

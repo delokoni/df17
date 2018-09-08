@@ -84,6 +84,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CopadoAutoBackPromoteService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CopadoConstants</apexClass>
         <enabled>false</enabled>
     </classAccesses>
