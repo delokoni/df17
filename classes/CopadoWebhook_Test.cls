@@ -117,23 +117,44 @@ public class CopadoWebhook_Test {
         }
     }
 
-    public static testMethod void testCopadoWebhookService() {
+    public static testMethod void testCopadoWebhookServiceSCA() {
         setUp();
         CopadoWebhookCalloutMock calloutMock = new CopadoWebhookCalloutMock();
         calloutMock.mockStaticCodeAnalysisCall();
-        
+
         Test.setMock(HttpCalloutMock.class, calloutMock);
-        
+
         System.debug(calloutMock.responseStatus);
         System.runAs(runningUser){
             Test.startTest();
-            
+
             HttpResponse response = CopadoSCAHelper.runStaticCodeAnalysisOnUserStory(userStory.Id);
             Test.stopTest();
-            
+
             System.assertEquals(2, CopadoAttachmentService.items.size());
             System.assertEquals('2018', response.getStatus());
             clu.deleteLicenseForTestRun(runningUser.Id, restoreUser);
+
+        }
+    }
+
+    public static testMethod void testCopadoWebhookServicePromotion(){
+        setUp();
+        CopadoWebhookCalloutMock calloutMock = new CopadoWebhookCalloutMock();
+        calloutMock.mockCreatePromotionAndDeployCall();
+
+        Test.setMock(HttpCalloutMock.class, calloutMock);
+        System.debug(calloutMock.responseStatus);
+
+        System.runAs(runningUser){
+            Test.startTest();
+
+            CopadoPromotionService.createAndDeployForwardPromotion(sourceEnv.Name,project.Name);
+            Test.stopTest();
+
+            System.debug(CopadoPromotionService.callResponse);
+
+            System.assertEquals('2019', CopadoPromotionService.callResponse.getStatus() );
 
         }
     }

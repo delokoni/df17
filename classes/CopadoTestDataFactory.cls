@@ -174,4 +174,21 @@ public class CopadoTestDataFactory {
         return [SELECT Id FROM PermissionSet WHERE Name = 'Copado_User'];
     }
 
+    public static Account createAccount(String name){
+        Account acct = new Account();
+        acct.Name = name;
+
+        return acct;
+    }
+
+    public static Opportunity createOppty(Account acct, String name){
+        Opportunity oppty = new Opportunity();
+        oppty.Name = name;
+        oppty.AccountId = acct.Id;
+        oppty.StageName = 'Qualification';
+        oppty.CloseDate = Date.today() + 30;
+
+        return oppty;
+    }
+
 }

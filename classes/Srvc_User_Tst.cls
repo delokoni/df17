@@ -5,11 +5,11 @@ public class Srvc_User_Tst {
     private static User runningUser;
     
     private static void setup(){
-        adminUser = TestDataFactory.createAdminUser();
+        adminUser = CopadoTestDataFactory.createAdminUser();
         insert adminUser;
         
         System.runAs(adminUser){
-            runningUser = TestDataFactory.createStandardUser();
+            runningUser = CopadoTestDataFactory.createStandardUser();
             insert runningUser;
         }
     }
