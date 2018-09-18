@@ -96,6 +96,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CopadoEnvironmentServiceTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CopadoFlowStepService</apexClass>
         <enabled>true</enabled>
     </classAccesses>

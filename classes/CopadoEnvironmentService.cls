@@ -22,7 +22,27 @@ public class CopadoEnvironmentService {
                         Name,
             			copado__Org_ID__c 
                 FROM copado__Environment__c
+                WHERE Id IN (
+                        SELECT copado__Environment__c
+                        FROM copado__Org__c
+                        WHERE Id = :orgId
+                )
+
+                LIMIT 1
+        ];
+        return env;
+    }
+
+    //get an environment based on the external Id; 18 digits
+    public static copado__Environment__c getEnvironmentBySFOrgId(String orgId){
+        copado__Environment__c env = [
+                SELECT
+                        Id,
+                        Name,
+            			copado__Org_ID__c
+                FROM copado__Environment__c
                 WHERE copado__Org_ID__c = :orgId
+
                 LIMIT 1
         ];
         return env;

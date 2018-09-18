@@ -30,7 +30,7 @@ public class CopadoOrgRefreshHelper {
     public static copado__Environment__c changeOrgIdOnEnvironment(String oldEnvId, String newEnvId){        
         
         //get the environment
-        copado__Environment__c env = CopadoEnvironmentService.getEnvironmentByOrgId(oldEnvId);
+        copado__Environment__c env = CopadoEnvironmentService.getEnvironmentBySFOrgId(oldEnvId);
         
         //change thee org Id to the new one and update the record
         env.copado__Org_ID__c = newEnvId;
