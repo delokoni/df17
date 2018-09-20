@@ -9,8 +9,37 @@
         <value>Account Plans</value>
     </caseValues>
     <fields>
+        <label><!-- Account Plan Type --></label>
+        <name>AccountPlanType__c</name>
+        <picklistValues>
+            <masterLabel>Long Term</masterLabel>
+            <translation><!-- Long Term --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Monthly</masterLabel>
+            <translation><!-- Monthly --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Semester</masterLabel>
+            <translation><!-- Semester --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Yearly</masterLabel>
+            <translation><!-- Yearly --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
         <label><!-- Achieved Amount --></label>
         <name>AchievedAmount__c</name>
+    </fields>
+    <fields>
+        <label><!-- External Id --></label>
+        <name>ExternalId__c</name>
+    </fields>
+    <fields>
+        <help><!-- If you actuals are below the plan value, please state the reasons here --></help>
+        <label><!-- Plan Not Reached Reasons --></label>
+        <name>PlanNotReachedReasons__c</name>
     </fields>
     <fields>
         <label><!-- Planned Amount --></label>
@@ -22,4 +51,8 @@
         <relationshipLabel><!-- Account Plans --></relationshipLabel>
     </fields>
     <gender>Feminine</gender>
+    <validationRules>
+        <errorMessage><!-- Please provide a reason, why plan has not been reached. --></errorMessage>
+        <name>Provide_Plan_Not_Reached_Reason</name>
+    </validationRules>
 </CustomObjectTranslation>
