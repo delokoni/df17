@@ -177,7 +177,7 @@ public with sharing class CopadoPromotionService {
     ){
         copado__Promotion__c promotion = getPromotion(promId);
 
-        String deploymentName = 'deploymentName=AutoDeployFrom'+promotion.copado__Source_Environment__r.Name + 'To' +promotion.copado__Destination_Environment__r.Name;
+        String deploymentName = 'deploymentName=AutoDeployFrom'+promotion.copado__Source_Environment__r.Name + 'To' +promotion.copado__Destination_Environment__r.Name + '_@stopUponCreation';
         String urlBase = CopadoConstants.webhookBase + CopadoConstants.deployPromotionBase;
         String testParameter = 'testLevel=' + testLevel;
         String apiKeyParameter = 'api_key=' + CopadoConstants.apiKey;
