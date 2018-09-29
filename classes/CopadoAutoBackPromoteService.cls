@@ -9,10 +9,10 @@ public with sharing class CopadoAutoBackPromoteService {
     public List<Id> newPromotionIds = new List<Id>();
 
     //mimic standard Constructor
-    CopadoAutoBackPromoteService(){}
+    public CopadoAutoBackPromoteService(){}
 
     //Constructor to be called by a trigger
-    CopadoAutoBackPromoteService(
+    public CopadoAutoBackPromoteService(
             copado__Promotion__c inputPromotion
     ){
         finishedPromotion = inputPromotion;
@@ -35,7 +35,10 @@ public with sharing class CopadoAutoBackPromoteService {
         //get lower steps and their source environments
         List<copado__Deployment_Flow_Step__c> flowSteps = CopadoFlowStepService.getLowerEnvironmentSteps(destEnvironment);
         for(copado__Deployment_Flow_Step__c step : flowSteps){
-            this.envIds.add(step.copado__Source_Environment__c);
+            if(step.copado__Source_Environment__c != finishedPromotion.copado__Source_Environment__c) {
+                this.envIds.add(step.copado__Source_Environment__c);
+                System.Debug('Environment Added: ' + step.copado__Source_Environment__r.Name);
+            }
         }
     }
 

@@ -88,6 +88,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CopadoAutoBackPromoteServiceTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CopadoConstants</apexClass>
         <enabled>true</enabled>
     </classAccesses>
