@@ -33,7 +33,8 @@ public class CopadoFlowStepService {
                         copado__Branch__c,
                         copado__Destination_Branch__c,
                         copado__Destination_Environment__c,
-                        copado__Source_Environment__c
+                        copado__Source_Environment__c,
+                        copado__Source_Environment__r.Name
                 FROM copado__Deployment_Flow_Step__c
                 WHERE (
                         copado__Destination_Environment__c = :destEnv.Id

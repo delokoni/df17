@@ -1,9 +1,9 @@
 /**
- * Created by kheidt on 28/09/2018.
+ * Created by kheidt on 01/10/2018.
  */
 
 @IsTest
-private class CopadoAutoBackPromoteServiceTest {
+private class CopadoPromotionTHTest {
 
 
     private static copado__Org__c sourceOrgCredential1;
@@ -163,84 +163,72 @@ private class CopadoAutoBackPromoteServiceTest {
         }
     }
 
-    static testMethod void testAutoBackPromotions() {
-        setup();
+    static testMethod void testBehavior() {
 
-        CopadoWebhookCalloutMock calloutMock = new CopadoWebhookCalloutMock();
-        calloutMock.mockCreatePromotionAndDeployCall();
+        setUp();
 
-        Test.setMock(HttpCalloutMock.class, calloutMock);
+        System.runAs(runningUser){
 
-        System.debug(calloutMock.responseStatus);
+            CopadoWebhookCalloutMock calloutMock = new CopadoWebhookCalloutMock();
+            calloutMock.mockCreatePromotionAndDeployCall();
 
-        Test.startTest();
-        System.runAs(runningUser) {
-            //create promotion to have a valid Id to pass for the mass auto back promotion creation
-            copado__Promotion__c forwardPromotion = CopadoPromotionService.createForwardPromotion(sourceEnv1.Id, project.Id);
-            insert forwardPromotion;
+            Test.setMock(HttpCalloutMock.class, calloutMock);
 
-            //Attach stories to promotion:
-            List<copado__Promoted_User_Story__c> promotedUserStories = CopadoPromotionService.attachUserStoriesBasedOnProject(forwardPromotion.Id);
-            insert promotedUserStories;
+            System.debug(calloutMock.responseStatus);
 
-            forwardPromotion = CopadoPromotionService.getPromotion(forwardPromotion.Id);
+            copado__Promotion__c firstPromotion = CopadoTestDataFactory.createForwardPromotion(project.Id, sourceEnv1.Id, targetEnv.Id);
+            insert firstPromotion;
 
-            CopadoAutoBackPromoteService cab = new CopadoAutoBackPromoteService(forwardPromotion);
-            cab.createBackPromotionsForLowerOrgs();
-            Test.stopTest();
+            //add stories
+            List<copado__Promoted_User_Story__c> pus = CopadoTestDataFactory.createPromotedUserStories(firstPromotion.Id, new List<Id>{userStory1.Id, userStory2.Id});
+            insert pus;
 
-            /**
-            * Assert Lines
-            **/
-
-            //get created promotions
-            Map<Id, copado__Promotion__c> createdPromotions = new Map<Id,copado__Promotion__c>([
+            List<copado__Promoted_User_Story__c> initialPUS = [
                     SELECT
-                            Id, Name, copado__Source_Environment__c, copado__Destination_Environment__c, copado__Back_Promotion__c
-                    FROM
-                            copado__Promotion__c
-            ]);
-
-            //get promoted user stories
-            System.debug('created promotions keyset: ' + createdPromotions.keySet());
-            List<copado__Promoted_User_Story__c> createdPUS = new List<copado__Promoted_User_Story__c>([
-                    SELECT
-                            Id, Name, copado__User_Story__c, copado__User_Story__r.copado__Environment__c, copado__Promotion__c
+                            Id, copado__User_Story__c, copado__Promotion__c,
+                            copado__Promotion__r.copado__Source_Environment__c
                     FROM
                             copado__Promoted_User_Story__c
-                    //WHERE
-                      //      copado__Promotion__c IN :createdPromotions.keySet()
-            ]);
 
-            //asser sizes
-            System.assertEquals(3, createdPromotions.keySet().size());
-            System.assertEquals(6, createdPUS.size());
+            ];
 
-            //back promotions have the target org of the initial promotion as their source orgs
-            for(copado__Promotion__c pm : createdPromotions.values()){
-                if(pm.copado__Back_Promotion__c == FALSE){
-                    System.assertEquals(targetEnv.Id, pm.copado__Destination_Environment__c);
-                    System.assertEquals(sourceEnv1.Id, pm.copado__Source_Environment__c);
-                } else{
-                    System.assertEquals(targetEnv.Id, pm.copado__Source_Environment__c);
-                }
+            firstPromotion.copado__Status__c = CopadoConstants.successfulPromotionStatus;
+
+            Test.startTest();
+            update firstPromotion;
+            Test.stopTest();
+
+            //check for expected results: 2 new promotions should be created,
+            // with the same stories and with the target org of the first one as the source org or the second ones.
+
+            List<copado__Promotion__c> createdPromotions = [
+                    SELECT Id, copado__Source_Environment__c, copado__Destination_Environment__c, copado__Back_Promotion__c
+                    FROM copado__Promotion__c
+                    WHERE copado__Back_Promotion__c = TRUE OR copado__Source_Environment__c = :targetEnv.Id
+            ];
+
+            List<copado__Promoted_User_Story__c> createdPUS = [
+                    SELECT
+                            Id, copado__User_Story__c, copado__Promotion__c,
+                            copado__Promotion__r.copado__Source_Environment__c
+                    FROM
+                            copado__Promoted_User_Story__c
+                    WHERE
+                            copado__Promotion__c != :firstPromotion.Id
+
+            ];
+
+            System.assertEquals(2,createdPromotions.size());
+            System.assertEquals(4, createdPUS.size());
+
+            for(copado__Promotion__c p : createdPromotions){
+                System.assertEquals(targetEnv.Id , p.copado__Source_Environment__c);
             }
 
-            //convert PUS to map for easier asserts
-            Map<Id, List<copado__Promoted_User_Story__c>> createdPUSperPromotion = new Map<Id, List<copado__Promoted_User_Story__c>>();
-            for(copado__Promoted_User_Story__c pus : createdPUS){
-                if(createdPUSperPromotion.get(pus.copado__Promotion__c) == null){
-                    createdPUSperPromotion.put(pus.copado__Promotion__c, new List<copado__Promoted_User_Story__c>());
-                }
-                createdPUSperPromotion.get(pus.copado__Promotion__c).add(pus);
-            }
-
-            for(copado__Promotion__c pm : createdPromotions.values()){
-                List<copado__Promoted_User_Story__c> pus = createdPUSperPromotion.get(pm.Id);
-
-                //each promotion should have at 2 stories
-                System.assertEquals(2, pus.size());
+            for(copado__Promoted_User_Story__c pu : createdPUS){
+                System.assertEquals(targetEnv.Id, pu.copado__Promotion__r.copado__Source_Environment__c);
             }
         }
+
     }
 }

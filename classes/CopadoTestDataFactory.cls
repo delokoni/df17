@@ -70,6 +70,12 @@ public class CopadoTestDataFactory {
         project.copado__Index_Metadata__c = true;
         project.copado__Status__c = 'In Progress';
         project.copado__Deployment_Flow__c = flow.Id;
+
+        if(checkForIntegrationField()) {
+            project.put('Copado_Integration_Setting__c', 'asdadas');
+            //convert project record in JSON
+        }
+
         return project;
     }
 
@@ -134,6 +140,47 @@ public class CopadoTestDataFactory {
         gs.copado__Git_Snapshot_Permissions__c = 'Allow Commits Only';
     	return gs;
     }
+
+    public static copado__Deployment__c createDeployment(
+            Id sourceOrgId
+    ){
+        copado__Deployment__c dpl = new copado__Deployment__c();
+        dpl.copado__From_Org__c = sourceOrgId;
+        dpl.Name = 'Unit Test Deployment';
+        return dpl;
+    }
+
+    public static copado__Destination_Org__c createDesticationOrgs(Id deploymentId, Id toOrgCredId){
+        copado__Destination_Org__c dorg = new copado__Destination_Org__c();
+
+        dorg.copado__Deployment__c = deploymentId;
+        dorg.copado__To_Org__c = toOrgCredId;
+
+        return dorg;
+    }
+
+    public static copado__Promotion__c createForwardPromotion(Id projectId, Id sourceEnvId, Id targetEnvId){
+        copado__Promotion__c prom = new copado__Promotion__c();
+
+        prom.copado__Project__c = projectId;
+        prom.copado__Source_Environment__c = sourceEnvId;
+        prom.copado__Destination_Environment__c = targetEnvId;
+
+        return prom;
+    }
+
+    public static List<copado__Promoted_User_Story__c> createPromotedUserStories(Id promotionId, List<Id> storyIds){
+        List<copado__Promoted_User_Story__c> pus = new List<copado__Promoted_User_Story__c>();
+
+        for(Id uid : storyIds){
+            copado__Promoted_User_Story__c pu = new copado__Promoted_User_Story__c();
+            pu.copado__User_Story__c = uid;
+            pu.copado__Promotion__c = promotionId;
+            pus.add(pu);
+        }
+
+        return pus;
+    }
     
     public static User createAdminUser(){
         Profile adminProfile = Srvc_User.getProfile('System Administrator');
@@ -143,8 +190,8 @@ public class CopadoTestDataFactory {
         newUser.LastName = 'Admin';
         newUser.email = 'admin@aa.test';
         newUser.Username = 'admin@aa.test';
-        newUser.Alias = 'aadmin';
-        newUser.CommunityNickname = 'aadmin';
+        newUser.Alias = 'tadmin';
+        newUser.CommunityNickname = 'tadmin';
         newUser.LocaleSidKey = 'es_ES';
         newUser.emailencodingkey='UTF-8';
         newUser.languagelocalekey='en_US';
@@ -160,8 +207,8 @@ public class CopadoTestDataFactory {
         newUser.LastName = 'Standard';
         newUser.email = 'standard@aa.test';
         newUser.Username = 'standard@aa.test';
-        newUser.Alias = 'standard';
-        newUser.CommunityNickname = 'stand';
+        newUser.Alias = 'tandard';
+        newUser.CommunityNickname = 'tstand';
         newUser.LocaleSidKey = 'es_ES';
         newUser.emailencodingkey='UTF-8';
         newUser.languagelocalekey='en_US';
@@ -189,6 +236,16 @@ public class CopadoTestDataFactory {
         oppty.CloseDate = Date.today() + 30;
 
         return oppty;
+    }
+
+    public static Boolean checkForIntegrationField(){
+        Schema.DescribeSObjectResult dsr = copado__Project__c.getSObjectType().getDescribe();
+        Map<String,Schema.SObjectField> dfr = Schema.sObjectType.copado__Project__c.fields.getMap();
+        if( dfr.containsKey('Copado_Integration_Setting__c') || dfr.containsKey('copado_integration_setting__c') ){
+            return true;
+        } else{
+            return false;
+        }
     }
 
 }

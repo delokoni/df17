@@ -19,15 +19,21 @@ public with sharing class CopadoAutoBackPromoteService {
     }
 
     public void createBackPromotionsForLowerOrgs(){
+
         this.getTargetOrgIds();
         this.createNewPromotions();
         this.addStoriesFromOtherPromotions();
+
+        //set flag in order to stop deployment execution upon creation
+        CopadoPromotionService.stopDeploymentExecution = true;
+
         this.fireDeploymentCreationForNewPromotions();
     }
 
     //check for lower orgs
     public void getTargetOrgIds() {
         //reuse code to get the environment record
+        System.debug(finishedPromotion);
         copado__Environment__c destEnvironment = CopadoEnvironmentService.getEnvironmentByOrgId(
                 finishedPromotion.copado__Destination_Org_Credential__c
         );
@@ -47,6 +53,7 @@ public with sharing class CopadoAutoBackPromoteService {
         List<copado__Promotion__c> newPromotions = CopadoPromotionService.createBackwardPromotions(
                 new List<Id>(this.envIds), this.finishedPromotion.copado__Project__c
         );
+        System.debug('we will create the following new promotions' + newPromotions.size() + ' | ' + newPromotions);
         insert newPromotions;
 
         for(copado__Promotion__c prom : newPromotions){
@@ -58,7 +65,7 @@ public with sharing class CopadoAutoBackPromoteService {
     //clone user stories from original promotion to new promotions
     public void addStoriesFromOtherPromotions(){
         List<copado__Promoted_User_Story__c> newPus = CopadoPromotionService.attachStoriesFromPromotions(
-                finishedPromotion.Id,
+                new List<Id>{finishedPromotion.Id},
                 newPromotionIds
         );
         insert newPus;
@@ -70,6 +77,9 @@ public with sharing class CopadoAutoBackPromoteService {
         //by the time this is executed, the User Story Service should have run the lines to check if stories have apex code.
         String testlevel = CopadoUserStoryService.hasApexCode == true ? CopadoConstants.runSelectedTests : CopadoConstants.noTestRun;
 
+        //ensure the tag is added correctly
+        CopadoPromotionService.stopDeploymentExecution = true;
+        
         for(Id promoId : newPromotionIds){
             CopadoPromotionService.deployPromotion(
                     String.valueOf(promoId),

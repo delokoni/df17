@@ -8,7 +8,8 @@ public with sharing class CopadoPromotionService {
 
     public static copado__Promotion__c queriedPromotion = new copado__Promotion__c();
     public static HttpResponse callResponse;
-   	public static Boolean hasApexCode = false;   
+   	public static Boolean hasApexCode = false;
+    public static Boolean stopDeploymentExecution = false;
     
     /**
      * create and deploy a promotion UP the flow. parameters are the name of an environment and a project
@@ -98,36 +99,26 @@ public with sharing class CopadoPromotionService {
     ){
         List<copado__Promotion__c> promotions = new List<copado__Promotion__c>();
         for(Id envID : targetEnvironments){
-            createBackPromotion(envID, projectId);
+            promotions.add(createBackPromotion(envID, projectId));
         }
         return promotions;
     }
 
     public static List<copado__Promoted_User_Story__c> attachStoriesFromPromotions(
-            Id promotionId,
-            List<Id> promoIds
+            List<Id> finishedPromotionId,
+            List<Id> newPromotionIds
     ){
-        Map<Id, List<Id>> promotionStoryIdMap = CopadoUserStoryService.getStoriesFromPromotions(promoIds);
+        Set<Id> uniqueset = new Set<Id>(finishedPromotionId);
+        uniqueset.addAll(newPromotionIds);
+        Map<Id, List<Id>> promotionStoryIdMap = CopadoUserStoryService.getStoriesFromPromotions(new List<Id>(uniqueset));
+
         //equalize the list
         Set<Id> uniqueStoryIds = convertIdMapToSet(promotionStoryIdMap);
-
-        //for deduplication purposes, in case there is already stories on the existing promotion
-        Map<Id, List<Id>> existingPromotionStoryIdMap = CopadoUserStoryService.getStoriesFromPromotions(new List<Id>{promotionId});
-
-        if(existingPromotionStoryIdMap != null && !existingPromotionStoryIdMap.keySet().isEmpty()) {
-
-            //get a unique set of existing usIds and remove them from the set we will later work with
-            Set<Id> uniqueExistingStoryIds = convertIdMapToSet(existingPromotionStoryIdMap);
-            for(Id usId : uniqueExistingStoryIds){
-                if(uniqueStoryIds.contains(usId)){
-                    uniqueStoryIds.remove(usId);
-                }
-            }
-        }
+        System.debug('there will be the following number of stories in the new promotions' + uniqueStoryIds.size());
 
         //create promoted user story records
         List<copado__Promoted_User_Story__c> newPus = new List<copado__Promoted_User_Story__c>();
-        for(Id pId : promoIds){
+        for(Id pId : newPromotionIds){
             for(Id usId : uniqueStoryIds){
                 newPus.add(new copado__Promoted_User_Story__c(
                         copado__User_Story__c = usId,
@@ -177,7 +168,10 @@ public with sharing class CopadoPromotionService {
     ){
         copado__Promotion__c promotion = getPromotion(promId);
 
-        String deploymentName = 'deploymentName=AutoDeployFrom'+promotion.copado__Source_Environment__r.Name + 'To' +promotion.copado__Destination_Environment__r.Name + '_@stopUponCreation';
+        String deploymentName = 'deploymentName=AutoDeployFrom'+promotion.copado__Source_Environment__r.Name + 'To' +promotion.copado__Destination_Environment__r.Name;
+        if(stopDeploymentExecution){
+            deploymentName += '@stopExecution';
+        }
         String urlBase = CopadoConstants.webhookBase + CopadoConstants.deployPromotionBase;
         String testParameter = 'testLevel=' + testLevel;
         String apiKeyParameter = 'api_key=' + CopadoConstants.apiKey;
@@ -190,6 +184,7 @@ public with sharing class CopadoPromotionService {
         hookURL += '&' + apiKeyParameter;
         hookURL += '&' + deploymentName;
 
+        System.debug('webhook URL: ' + hookURL);
         callResponse = CopadoWebhookService.callWebhook('POST', hookURL, null);
         System.debug(callResponse);
         //return promotion;

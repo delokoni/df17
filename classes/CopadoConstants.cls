@@ -20,4 +20,11 @@ public with sharing class CopadoConstants {
     public static final String noTestRun = 'NoTestRun';
 
     public static final String projectId = CopadoKeys__c.getInstance('ProjectId').Value__c;
+
+    public static final String pauseDeploymentString = '@pauseDeploymentExecution';
+    public static final String pauseManualTaskJSON = '{"Perform_in_Destination_Orgs":true,"Perform_in_Source_Org":false,"Task_Description":"Pause execution of this deployment","Task_Owner":"","Notify_Task_Owner":"None"}';
+
+    public static Integer CopadoDeploymentTriggerExecutionCounter = 0;
+
+    public static final String successfulPromotionStatus = 'Completed';
 }

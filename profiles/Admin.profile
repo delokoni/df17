@@ -96,6 +96,18 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CopadoDeploymentStepService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CopadoDeploymentTH</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CopadoDeploymentTHTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CopadoEnvironmentService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -141,6 +153,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>CopadoPromotionServiceTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CopadoPromotionTH</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CopadoPromotionTHTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
