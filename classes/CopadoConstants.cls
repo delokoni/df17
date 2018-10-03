@@ -27,4 +27,6 @@ public with sharing class CopadoConstants {
     public static Integer CopadoDeploymentTriggerExecutionCounter = 0;
 
     public static final String successfulPromotionStatus = 'Completed';
+
+    public static final String scratchOrgType = 'Scratch Org';
 }

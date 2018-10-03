@@ -92,7 +92,19 @@ private class CopadoPromotionServiceTest {
             insert dfs;
             
             project = CopadoTestDataFactory.createProject(flow);
-            insert project;
+
+            if(CopadoTestDataFactory.hasCopadoIntegration){
+                // create setting record
+                SObject setting = CopadoTestDataFactory.createIntegrationSetting();
+                Type sType = Type.forName('Copado_Integration_Setting__c');
+                Database.insertImmediate(setting);
+
+                project = CopadoTestDataFactory.addIntegrationSetting(project, (String) setting.Id);
+
+                insert project;
+            } else{
+                insert project;
+            }
             
             userStory = CopadoTestDataFactory.createUserStory(project, sourceEnv, sourceOrgCredential);
             userStory.copado__Promote_Change__c = true;
@@ -168,9 +180,5 @@ private class CopadoPromotionServiceTest {
             System.assertEquals('2022-09-03 00:00:00', String.valueOf(ct.NextFireTime));
             Test.stopTest();
         }
-    }
-
-    public static testMethod void createAndDeployBackwardPromotion(){
-        
     }
 }

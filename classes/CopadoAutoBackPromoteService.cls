@@ -42,8 +42,10 @@ public with sharing class CopadoAutoBackPromoteService {
         List<copado__Deployment_Flow_Step__c> flowSteps = CopadoFlowStepService.getLowerEnvironmentSteps(destEnvironment);
         for(copado__Deployment_Flow_Step__c step : flowSteps){
             if(step.copado__Source_Environment__c != finishedPromotion.copado__Source_Environment__c) {
-                this.envIds.add(step.copado__Source_Environment__c);
-                System.Debug('Environment Added: ' + step.copado__Source_Environment__r.Name);
+                if(step.copado__Source_Environment__r.copado__Type__c != CopadoConstants.scratchOrgType) {
+                    this.envIds.add(step.copado__Source_Environment__c);
+                    System.Debug('Environment Added: ' + step.copado__Source_Environment__r.Name);
+                }
             }
         }
     }
@@ -79,7 +81,7 @@ public with sharing class CopadoAutoBackPromoteService {
 
         //ensure the tag is added correctly
         CopadoPromotionService.stopDeploymentExecution = true;
-        
+
         for(Id promoId : newPromotionIds){
             CopadoPromotionService.deployPromotion(
                     String.valueOf(promoId),

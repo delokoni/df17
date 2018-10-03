@@ -5,6 +5,8 @@
 @IsTest
 public class CopadoTestDataFactory {
 
+    public static Boolean hasCopadoIntegration = checkForIntegrationField();
+
     public static copado__Environment__c createEnvironment(){
         copado__Environment__c env = new copado__Environment__c();
         env.Name = 'UnitTest';
@@ -71,12 +73,25 @@ public class CopadoTestDataFactory {
         project.copado__Status__c = 'In Progress';
         project.copado__Deployment_Flow__c = flow.Id;
 
-        if(checkForIntegrationField()) {
-            project.put('Copado_Integration_Setting__c', 'asdadas');
-            //convert project record in JSON
-        }
 
         return project;
+    }
+
+    public static copado__Project__c addIntegrationSetting(copado__Project__c project, String settingId){
+        if(hasCopadoIntegration) {
+            project.put('Copado_Integration_Setting__c', settingId);
+            project.put('Project_External_Id__c', 'UniTestEXTID');
+        }
+        return project;
+    }
+
+    public static SObject createIntegrationSetting(){
+        SObject sobj = Schema.getGlobalDescribe().get('Copado_Integration_Setting__c').newSObject();
+        sobj.put('Name', 'Test Jira');
+        sobj.put('External_System__c', 'JIRA');
+        sobj.put('Named_Credential__c', 'JIRA_TESTF');
+
+        return sobj;
     }
 
     public static copado__User_Story__c createUserStory (

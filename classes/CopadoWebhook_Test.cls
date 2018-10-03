@@ -90,9 +90,21 @@ public class CopadoWebhook_Test {
             
             copado__Deployment_Flow_Step__c dfs = CopadoTestDataFactory.createDeploymentFlowStep(flow.Id,sourceEnv.Id, targetEnv.Id);
             insert dfs;
-            
+
             project = CopadoTestDataFactory.createProject(flow);
-            insert project;
+
+            if(CopadoTestDataFactory.hasCopadoIntegration){
+                // create setting record
+                SObject setting = CopadoTestDataFactory.createIntegrationSetting();
+                Type sType = Type.forName('Copado_Integration_Setting__c');
+                Database.insertImmediate(setting);
+
+                project = CopadoTestDataFactory.addIntegrationSetting(project, (String) setting.Id);
+
+                insert project;
+            } else{
+                insert project;
+            }
             
             userStory = CopadoTestDataFactory.createUserStory(project, sourceEnv, sourceOrgCredential);
             userStory.copado__Promote_Change__c = true;

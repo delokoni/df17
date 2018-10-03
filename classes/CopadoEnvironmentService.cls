@@ -8,7 +8,9 @@ public class CopadoEnvironmentService {
                         Name,
             			copado__Org_ID__c
                 FROM copado__Environment__c
-                WHERE Name = :envName
+                WHERE Name = :envName AND
+                copado__Type__c != :CopadoConstants.scratchOrgType
+
                 LIMIT 1
         ];
         return env;
@@ -26,7 +28,8 @@ public class CopadoEnvironmentService {
                         SELECT copado__Environment__c
                         FROM copado__Org__c
                         WHERE Id = :orgId
-                )
+                ) AND
+                copado__Type__c != :CopadoConstants.scratchOrgType
 
                 LIMIT 1
         ];
@@ -41,7 +44,8 @@ public class CopadoEnvironmentService {
                         Name,
             			copado__Org_ID__c
                 FROM copado__Environment__c
-                WHERE copado__Org_ID__c = :orgId
+                WHERE copado__Org_ID__c = :orgId AND
+                copado__Type__c != :CopadoConstants.scratchOrgType
 
                 LIMIT 1
         ];
