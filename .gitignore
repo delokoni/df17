@@ -7,7 +7,8 @@ installedPackages/*
 .idea/*
 *.iml
 
-#I just make changes here
+#I just make changes here. and here
+# now i make more chages.
 applications/copado__*
 classes/copado__*
 customPermissions/copado__*
