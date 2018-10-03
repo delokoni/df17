@@ -9,6 +9,7 @@ installedPackages/*
 
 # some changes here too
 #I just make changes here
+#New Line added
 applications/copado__*
 classes/copado__*
 customPermissions/copado__*
