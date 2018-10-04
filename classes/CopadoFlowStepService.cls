@@ -12,7 +12,6 @@ public class CopadoFlowStepService {
                         copado__Destination_Branch__c,
                         copado__Destination_Environment__c,
                         copado__Source_Environment__c,
-                        copado__Source_Environment__r.Name,
                         copado__Source_Environment__r.copado__Type__c
                 FROM copado__Deployment_Flow_Step__c
                 WHERE (

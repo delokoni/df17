@@ -15,9 +15,11 @@ trigger CopadoDeploymentTR on copado__Deployment__c (before insert, before updat
     }
     if(Trigger.isAfter) {
         System.debug('enter after logic');
-        if (Trigger.isUpdate || Trigger.isInsert){
+        if (Trigger.isInsert){
 
             cdth.createStoppingManualStep(Trigger.new);
+        } else if(Trigger.isUpdate){
+            cdth.createStoppingManualStepUpdate(Trigger.old, Trigger.new);
         }
     }
 }

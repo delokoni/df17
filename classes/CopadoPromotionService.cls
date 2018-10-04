@@ -9,8 +9,7 @@ public with sharing class CopadoPromotionService {
     public static copado__Promotion__c queriedPromotion = new copado__Promotion__c();
     public static HttpResponse callResponse;
    	public static Boolean hasApexCode = false;
-    public static Boolean stopDeploymentExecution = false;
-    
+
     /**
      * create and deploy a promotion UP the flow. parameters are the name of an environment and a project
      **/
@@ -66,7 +65,7 @@ public with sharing class CopadoPromotionService {
 
         List<copado__Promoted_User_Story__c> pus = attachUserStoriesBasedOnProject(promotion.Id);
         insert pus;
-        deployPromotion(promotion.Id,testLevel,isValidation);
+        deployPromotion(promotion.Id,testLevel,isValidation, false);
         //return promotion;
     }
     
@@ -164,13 +163,15 @@ public with sharing class CopadoPromotionService {
     public static void deployPromotion(
             String promId,
             String testLevel,
-            Boolean isValidation
+            Boolean isValidation,
+            Boolean stopExecution
     ){
         copado__Promotion__c promotion = getPromotion(promId);
 
         String deploymentName = 'deploymentName=AutoDeployFrom'+promotion.copado__Source_Environment__r.Name + 'To' +promotion.copado__Destination_Environment__r.Name;
-        if(stopDeploymentExecution){
-            deploymentName += '@stopExecution';
+        if(stopExecution == true){
+            System.debug('deployment should be paused before start');
+            deploymentName += CopadoConstants.pauseDeploymentString;
         }
         String urlBase = CopadoConstants.webhookBase + CopadoConstants.deployPromotionBase;
         String testParameter = 'testLevel=' + testLevel;
@@ -185,6 +186,7 @@ public with sharing class CopadoPromotionService {
         hookURL += '&' + deploymentName;
 
         System.debug('webhook URL: ' + hookURL);
+        System.debug('will we stop deployment? ' + stopExecution);
         callResponse = CopadoWebhookService.callWebhook('POST', hookURL, null);
         System.debug(callResponse);
         //return promotion;

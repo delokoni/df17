@@ -102,6 +102,7 @@ public class CopadoTestDataFactory {
         copado__User_Story__c us = new copado__User_Story__c();
         us.copado__User_Story_Title__c = 'Unit Test US';
         us.copado__Promotion_Test_Level__c = 'NoTestRun';
+        us.copado__Status__c = 'In Progress';
         us.copado__Org_Credential__c = org.Id;
         us.copado__Environment__c = env.Id;
         us.copado__Project__c = project.Id;

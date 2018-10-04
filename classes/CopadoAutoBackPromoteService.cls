@@ -23,10 +23,6 @@ public with sharing class CopadoAutoBackPromoteService {
         this.getTargetOrgIds();
         this.createNewPromotions();
         this.addStoriesFromOtherPromotions();
-
-        //set flag in order to stop deployment execution upon creation
-        CopadoPromotionService.stopDeploymentExecution = true;
-
         this.fireDeploymentCreationForNewPromotions();
     }
 
@@ -79,14 +75,12 @@ public with sharing class CopadoAutoBackPromoteService {
         //by the time this is executed, the User Story Service should have run the lines to check if stories have apex code.
         String testlevel = CopadoUserStoryService.hasApexCode == true ? CopadoConstants.runSelectedTests : CopadoConstants.noTestRun;
 
-        //ensure the tag is added correctly
-        CopadoPromotionService.stopDeploymentExecution = true;
-
         for(Id promoId : newPromotionIds){
             CopadoPromotionService.deployPromotion(
                     String.valueOf(promoId),
                     testlevel,
-                    false
+                    false,
+                    true
             );
         }
     }
