@@ -191,6 +191,14 @@
         <type>Checkbox</type>
     </fields>
     <fields>
+        <fullName>Field_to_Prod__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Field to Prod</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>Has_Preferred_Support__c</fullName>
         <defaultValue>false</defaultValue>
         <description>Checked for accounts who have purchased Preferred Support. Checkbox should be automated based on current active contract.</description>
