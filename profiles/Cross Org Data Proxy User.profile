@@ -148,6 +148,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CopadoPromotedStoriesService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CopadoPromotionService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
