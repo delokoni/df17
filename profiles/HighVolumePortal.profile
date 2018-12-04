@@ -96,6 +96,14 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CopadoDeleteMe</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CopadoDeleteMeTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CopadoDeploymentStepService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
