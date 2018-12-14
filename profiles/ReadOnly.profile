@@ -212,6 +212,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Demo</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>JiraIssueFetcher_Batch</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -315,6 +319,11 @@
         <editable>false</editable>
         <field>Account.DandbCompanyId</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.Demo__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
