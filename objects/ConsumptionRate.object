@@ -39,41 +39,43 @@
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <enableFeeds>false</enableFeeds>
     <fields>
-        <fullName>CapturedAngle</fullName>
+        <fullName>ConsumptionScheduleId</fullName>
+        <inlineHelpText>This rate is a part of of this schedule.</inlineHelpText>
+        <trackHistory>false</trackHistory>
+        <type>MasterDetail</type>
     </fields>
     <fields>
-        <fullName>ContentDocumentId</fullName>
-        <type>Lookup</type>
+        <fullName>Description</fullName>
+        <trackHistory>false</trackHistory>
     </fields>
     <fields>
-        <fullName>ImageAlternateText</fullName>
-    </fields>
-    <fields>
-        <fullName>ImageClass</fullName>
-    </fields>
-    <fields>
-        <fullName>ImageClassObjectType</fullName>
-    </fields>
-    <fields>
-        <fullName>ImageTitle</fullName>
-    </fields>
-    <fields>
-        <fullName>ImageUrl</fullName>
-    </fields>
-    <fields>
-        <fullName>ImageViewType</fullName>
-    </fields>
-    <fields>
-        <fullName>IsActive</fullName>
+        <fullName>LowerBound</fullName>
+        <inlineHelpText>The lowest quantity of usage for this consumption rate.</inlineHelpText>
+        <trackHistory>false</trackHistory>
     </fields>
     <fields>
         <fullName>Name</fullName>
+        <trackHistory>false</trackHistory>
     </fields>
-    <searchLayouts>
-        <customTabListAdditionalFields>LastModifiedBy</customTabListAdditionalFields>
-        <customTabListAdditionalFields>LastModifiedDate</customTabListAdditionalFields>
-        <searchResultsAdditionalFields>LastModifiedBy</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>LastModifiedDate</searchResultsAdditionalFields>
-    </searchLayouts>
-    <sharingModel>Private</sharingModel>
+    <fields>
+        <fullName>Price</fullName>
+        <inlineHelpText>The price for usage that falls within this consumption rate&apos;s bounds.</inlineHelpText>
+        <trackHistory>false</trackHistory>
+    </fields>
+    <fields>
+        <fullName>PricingMethod</fullName>
+        <inlineHelpText>Choose whether the usage is priced per unit or quantity or as a flat fee</inlineHelpText>
+        <trackHistory>false</trackHistory>
+    </fields>
+    <fields>
+        <fullName>ProcessingOrder</fullName>
+        <inlineHelpText>The order for processing the usage rate across multiple rates. Consumption Rates are evaluated beginning with the lowest processing order.</inlineHelpText>
+        <trackHistory>false</trackHistory>
+    </fields>
+    <fields>
+        <fullName>UpperBound</fullName>
+        <inlineHelpText>The highest quantity of usage for this consumption rate.</inlineHelpText>
+        <trackHistory>false</trackHistory>
+    </fields>
+    <sharingModel>ControlledByParent</sharingModel>
 </CustomObject>

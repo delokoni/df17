@@ -39,41 +39,33 @@
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <enableFeeds>false</enableFeeds>
     <fields>
-        <fullName>CapturedAngle</fullName>
-    </fields>
-    <fields>
-        <fullName>ContentDocumentId</fullName>
+        <fullName>DefaultAuthFormTextId</fullName>
+        <trackHistory>false</trackHistory>
         <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>ImageAlternateText</fullName>
+        <fullName>EffectiveFromDate</fullName>
+        <trackHistory>false</trackHistory>
     </fields>
     <fields>
-        <fullName>ImageClass</fullName>
-    </fields>
-    <fields>
-        <fullName>ImageClassObjectType</fullName>
-    </fields>
-    <fields>
-        <fullName>ImageTitle</fullName>
-    </fields>
-    <fields>
-        <fullName>ImageUrl</fullName>
-    </fields>
-    <fields>
-        <fullName>ImageViewType</fullName>
-    </fields>
-    <fields>
-        <fullName>IsActive</fullName>
+        <fullName>EffectiveToDate</fullName>
+        <trackHistory>false</trackHistory>
     </fields>
     <fields>
         <fullName>Name</fullName>
+        <trackHistory>false</trackHistory>
+    </fields>
+    <fields>
+        <fullName>RevisionNumber</fullName>
+        <trackHistory>false</trackHistory>
     </fields>
     <searchLayouts>
-        <customTabListAdditionalFields>LastModifiedBy</customTabListAdditionalFields>
         <customTabListAdditionalFields>LastModifiedDate</customTabListAdditionalFields>
-        <searchResultsAdditionalFields>LastModifiedBy</searchResultsAdditionalFields>
+        <customTabListAdditionalFields>LastModifiedBy</customTabListAdditionalFields>
+        <customTabListAdditionalFields>DefaultAuthFormText</customTabListAdditionalFields>
         <searchResultsAdditionalFields>LastModifiedDate</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>LastModifiedBy</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>DefaultAuthFormText</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>Private</sharingModel>
 </CustomObject>

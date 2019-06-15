@@ -39,41 +39,12 @@
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <enableFeeds>false</enableFeeds>
     <fields>
-        <fullName>CapturedAngle</fullName>
-    </fields>
-    <fields>
-        <fullName>ContentDocumentId</fullName>
+        <fullName>ConsumptionScheduleId</fullName>
         <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>ImageAlternateText</fullName>
+        <fullName>ProductId</fullName>
+        <type>Lookup</type>
     </fields>
-    <fields>
-        <fullName>ImageClass</fullName>
-    </fields>
-    <fields>
-        <fullName>ImageClassObjectType</fullName>
-    </fields>
-    <fields>
-        <fullName>ImageTitle</fullName>
-    </fields>
-    <fields>
-        <fullName>ImageUrl</fullName>
-    </fields>
-    <fields>
-        <fullName>ImageViewType</fullName>
-    </fields>
-    <fields>
-        <fullName>IsActive</fullName>
-    </fields>
-    <fields>
-        <fullName>Name</fullName>
-    </fields>
-    <searchLayouts>
-        <customTabListAdditionalFields>LastModifiedBy</customTabListAdditionalFields>
-        <customTabListAdditionalFields>LastModifiedDate</customTabListAdditionalFields>
-        <searchResultsAdditionalFields>LastModifiedBy</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>LastModifiedDate</searchResultsAdditionalFields>
-    </searchLayouts>
-    <sharingModel>Private</sharingModel>
+    <sharingModel>ReadWrite</sharingModel>
 </CustomObject>
