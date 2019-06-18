@@ -3,7 +3,11 @@ public class Utility {
     public static final String companyCurrency = 'EUR';
     
     public static void debugSomeComments (){
-        System.debug('Thomson Rules');
-        System.debug('Hello World - post fit');
+        System.debug('My New World: Hello');
+    }
+    
+    public static void debugOtherComments(){
+        System.debug('Hello Oliver');
+        //This is some major new stuff
     }
 }
