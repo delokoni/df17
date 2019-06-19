@@ -6622,6 +6622,10 @@
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
+        <apexPage>TelstraDX</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
         <apexPage>ViewChangeManagementIntegration</apexPage>
         <enabled>true</enabled>
     </pageAccesses>

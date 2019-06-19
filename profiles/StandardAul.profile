@@ -5569,6 +5569,10 @@
         <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
+        <apexPage>TelstraDX</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
         <apexPage>ViewChangeManagementIntegration</apexPage>
         <enabled>false</enabled>
     </pageAccesses>
