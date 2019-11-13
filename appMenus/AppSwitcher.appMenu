@@ -132,4 +132,8 @@
         <name>DEVHUB_hdwavinv7relbyx1rbpa</name>
         <type>ConnectedApp</type>
     </appMenuItems>
+    <appMenuItems>
+        <name>copado__Copado_Console</name>
+        <type>CustomApplication</type>
+    </appMenuItems>
 </AppMenu>
