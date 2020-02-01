@@ -611,6 +611,12 @@
         <searchResultsAdditionalFields>CORE.USERS.ALIAS</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
+    <validationRules>
+        <fullName>Envar_Name</fullName>
+        <active>true</active>
+        <errorConditionFormula>Name = &apos;myEnvarNeedsToBeReplacedInStage&apos;</errorConditionFormula>
+        <errorMessage>This is a strange account name. Maybe check for something decent</errorMessage>
+    </validationRules>
     <webLinks>
         <fullName>Billing</fullName>
         <availability>online</availability>
