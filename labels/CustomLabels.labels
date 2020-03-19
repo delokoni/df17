@@ -7,4 +7,11 @@
         <shortDescription>MyNewLabel</shortDescription>
         <value>Hello World, Again</value>
     </labels>
+    <labels>
+        <fullName>back_promotion_test</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>back promotion test</shortDescription>
+        <value>test</value>
+    </labels>
 </CustomLabels>
